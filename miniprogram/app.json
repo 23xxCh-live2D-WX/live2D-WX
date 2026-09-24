@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/interview/interview",
+    "pages/report/report"
+  ],
+  "window": {
+    "navigationBarTitleText": "开口练面试",
+    "navigationBarBackgroundColor": "#111a35",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f6fb",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2"
+}

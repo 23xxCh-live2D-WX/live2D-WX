@@ -1,0 +1,23 @@
+page {
+  min-height: 100%;
+  color: #15203b;
+  background: #f4f6fb;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+button::after { border: 0; }
+
+.primary-button {
+  background: #5368e8;
+  color: #fff;
+  border-radius: 18rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.secondary-button {
+  background: #e9edff;
+  color: #394fbf;
+  border-radius: 18rpx;
+  font-size: 28rpx;
+}

@@ -1,0 +1,25 @@
+<view class="avatar avatar--{{state}}" style="width: {{size}}rpx; height: {{size}}rpx;" aria-role="img" aria-label="动态面试官原型">
+  <canvas id="modelCanvas" type="webgl" class="model-canvas {{rendered ? 'model-canvas--ready' : ''}}"></canvas>
+  <view wx:if="{{!rendered}}" class="fallback">
+  <view class="halo"></view>
+  <view class="shadow"></view>
+  <view class="hair-back"></view>
+  <view class="coat"></view>
+  <view class="shirt"></view>
+  <view class="neck"></view>
+  <view class="ear ear-left"></view>
+  <view class="ear ear-right"></view>
+  <view class="face">
+    <view class="brow brow-left"></view>
+    <view class="brow brow-right"></view>
+    <view class="eye eye-left"></view>
+    <view class="eye eye-right"></view>
+    <view class="nose"></view>
+    <view class="mouth"></view>
+  </view>
+  <view class="fringe fringe-left"></view>
+  <view class="fringe fringe-right"></view>
+  <view class="spark spark-one"></view>
+  <view class="spark spark-two"></view>
+  </view>
+</view>

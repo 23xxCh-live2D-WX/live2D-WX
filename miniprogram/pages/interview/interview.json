@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "模拟面试",
+  "usingComponents": {
+    "live2d-avatar": "../../components/live2d/index"
+  }
+}

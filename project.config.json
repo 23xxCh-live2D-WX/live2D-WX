@@ -1,0 +1,13 @@
+{
+  "appid": "touristappid",
+  "projectname": "live2d-interview-practice",
+  "description": "Live2D 模拟面试练习原型",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "miniprogram/",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "minified": false,
+    "minifyWXML": true
+  }
+}

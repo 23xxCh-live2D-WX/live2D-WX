@@ -1,0 +1,43 @@
+<view class="page">
+  <view class="hero">
+    <view class="eyebrow">一场只属于你的模拟面试</view>
+    <view class="headline">先在这里练习，
+      <view>再去面对真实面试。</view>
+    </view>
+    <view class="hero-note">3 个行为问题 · 逐题追问 · 回答复盘</view>
+    <view class="hero-orb">✦</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">准备哪类岗位？</view>
+    <input class="job-input" maxlength="40" placeholder="例如：AI 应用开发、产品经理" value="{{job}}" bindinput="onJobInput" />
+    <view class="hint">只用岗位名称，不上传简历。</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">练习界面</view>
+    <view class="mode-row">
+      <view class="mode {{mode === 'animated' ? 'selected' : ''}}" data-mode="animated" bindtap="onModeChange">
+        <view class="mode-icon">✦</view>
+        <view class="mode-name">动态角色原型</view>
+      </view>
+      <view class="mode {{mode === 'static' ? 'selected' : ''}}" data-mode="static" bindtap="onModeChange">
+        <view class="mode-icon">◯</view>
+        <view class="mode-name">静态对照</view>
+      </view>
+    </view>
+    <view class="hint">动态角色目前是状态动画；Live2D 模型真机接入仍在验证。</view>
+  </view>
+
+  <view class="card disclosure">
+    <view class="card-title">数据与反馈</view>
+    <view class="hint">演示模式使用固定追问和练习提示；开启云开发后可生成 AI 追问与反馈。回答保存在本机，可随时删除。</view>
+    <view wx:if="{{cloudAvailable}}" class="consent-row">
+      <switch color="#5368e8" checked="{{consent}}" bindchange="onConsentChange" />
+      <text>同意将回答发送至云开发，用于生成本次追问和复盘</text>
+    </view>
+  </view>
+
+  <button class="primary-button start-button" bindtap="start">开始练习</button>
+  <view class="footnote">练习反馈不预测真实录用结果。</view>
+</view>

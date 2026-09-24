@@ -1,0 +1,6 @@
+node_modules/
+*.log
+.env
+.env.*
+project.private.config.json
+miniprogram/components/live2d/local_model/

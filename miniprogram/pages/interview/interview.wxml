@@ -1,0 +1,35 @@
+<view class="page">
+  <view class="topline">
+    <view class="job-pill">{{job}}</view>
+    <view class="progress">第 {{turnNumber}} / 6 轮</view>
+  </view>
+  <view class="progress-track"><view class="progress-fill" style="width: {{turnNumber * 100 / 6}}%;"></view></view>
+
+  <view class="scene">
+    <live2d-avatar wx:if="{{mode === 'animated'}}" state="{{avatarState}}" size="320" />
+    <view wx:else class="static-avatar">◉</view>
+    <view class="scene-caption">{{phase === 'main' ? '面试官提问' : '进一步追问'}}</view>
+  </view>
+
+  <view class="prompt-card">
+    <view class="quote-mark">“</view>
+    <view class="prompt">{{prompt}}</view>
+  </view>
+
+  <view wx:if="{{notice}}" class="notice">{{notice}}</view>
+  <view class="input-card">
+    <view class="input-title">你的回答</view>
+    <view class="voice-row">
+      <button wx:if="{{recordState !== 'recording' && recordState !== 'processing'}}" class="voice-button" bindtap="startRecord">{{recordState === 'recorded' ? '重新录音' : '录音练习'}}</button>
+      <button wx:elif="{{recordState === 'recording'}}" class="voice-button recording" bindtap="stopRecord">结束录音</button>
+      <button wx:else class="voice-button" disabled>处理中…</button>
+      <button wx:if="{{recordState === 'recorded'}}" class="play-button" bindtap="playRecord">回听 {{recordSeconds}} 秒</button>
+    </view>
+    <view class="voice-hint">本页临时录音，仅供回听；不会上传或进入报告。最多 60 秒。请再写出回答要点，才能获得文字追问。</view>
+    <textarea class="answer-box" maxlength="800" auto-height placeholder="写出具体场景、你做的行动和结果" value="{{draft}}" bindinput="onDraftInput" />
+    <view class="input-hint">至少 10 字；不用填写姓名、电话或完整简历。</view>
+  </view>
+
+  <button class="primary-button submit-button" disabled="{{busy}}" loading="{{busy}}" bindtap="submit">{{phase === 'probe' && questionIndex === 2 ? '完成并查看复盘' : '提交回答'}}</button>
+  <button class="exit-button" bindtap="exit">退出练习</button>
+</view>
