@@ -4,7 +4,7 @@
 
 ## 本地打开
 
-使用微信开发者工具导入本目录 `E:\AI WORK\微信小程序比赛`。项目暂用 `touristappid`，可先检查模拟器界面；真机预览及云开发需要本项目的真实 AppID。
+使用微信开发者工具导入本目录 `E:\AI WORK\微信小程序比赛`。项目已绑定用户提供的真实 AppID `wx4a5e6ac59f5a4620`。2026-10-04 开发者工具 CLI 已成功生成预览二维码，代码包大小为 457,638 字节（约 447 KB）；手机扫码后的功能表现仍待实测。
 
 命令行检查：
 
@@ -15,14 +15,14 @@ node scripts/check.js
 
 ## 接入云端后
 
-在 `project.config.json` 填入本项目 AppID，在 `miniprogram/config.js` 填入云开发环境 ID，并核对模型名称和当前权限。首页需勾选同意发送回答，才会调用云端生成追问与复盘。云端失败时会显示固定内容，不能标为 AI 评分。
+AppID 已配置。该 AppID 的官方 CLI 云环境查询及一次重试均返回 `ret=1000 / system error`，未取得环境 ID；不能据此判断没有环境。`miniprogram/config.js` 的云环境 ID 仍为空，当前使用固定题和本地复盘。获得本项目的真实环境 ID 后，再配置并核对模型名称和权限。首页需勾选同意发送回答，才会调用云端生成追问与复盘。云端失败时会显示固定内容，不能标为 AI 评分。
 
 ## 验证边界
 
 - `node scripts/check.js` 用模拟微信 API 检查 6 轮问答、三题首答/追问配对、重答保存与重新打开、保存失败保留草稿、切题防丢稿、删除失败、录音回调归属和卸载后的云端回调，不能替代开发者工具编译或真机测试。
-- 2026-10-04 微信开发者工具 CLI `auto` 返回成功并打开本项目；`preview` 进入上传阶段后返回 **“AppID 不合法, invalid appid”（code 10）**，当前仍配置 `touristappid`，未获得真机预览码。页面交互和真机效果未验收。
+- 2026-10-04 绑定真实 AppID 后，微信开发者工具 CLI `open` 与 `preview` 成功，生成了本地预览二维码；这证明预览打包及上传完成。iOS / Android 页面交互、录音授权与回听、保存回看尚未验收，不能据此声称已经发布。
 - 第三方模型文件**没有留在交付包内**。[Live2D 技术探针说明](miniprogram/components/live2d/README.md)记录了本地重建方式；暂存样例约 8.3 MB，超过[单包 2 MB 限制](https://cloud.tencent.com/document/product/1301/93145)。发布版须换更小的自有模型或经合规 HTTPS 资源加载，并确认资产使用权。
 - 本地录音也需麦克风授权；用真实 AppID 上线前须在小程序后台配置并核对隐私保护指引。
 - 微信端竞品实测、目标用户访谈与静态 / Live2D 对照尚未执行。执行表见 [fieldwork.md](research/fieldwork.md)。
 - 三路竞品与原始需求证据已更新至 2026-10-04，见 [competitors.md](research/competitors.md)；比赛截止与正式上线要求见 [roadmap.md](research/roadmap.md)。
-- 发布前仍需确认模型使用权、AppID、服务类目、所需 AI 材料、iOS / Android 真机表现及大赛提交材料。
+- 发布前仍需确认后台名称、主体、服务类目、首次上线日期、模型使用权、所需 AI 材料、iOS / Android 真机表现及大赛提交材料。修改本地 AppID 和导航标题不会修改微信后台的小程序名称。
