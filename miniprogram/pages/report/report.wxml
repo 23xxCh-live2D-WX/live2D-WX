@@ -14,11 +14,26 @@
     <view class="source-note">{{aiGenerated ? '以上为 AI 生成的练习建议，请自行核对。' : '以上为固定练习提示，不是 AI 评分。'}}</view>
   </view>
 
-  <view class="section-title history-title">回看你的回答</view>
-  <view wx:for="{{answers}}" wx:key="index" class="card answer-card">
-    <view class="answer-count">第 {{index + 1}} 轮</view>
+  <view class="section-title history-title">选一题，用同一经历再答一次</view>
+  <view wx:for="{{questions}}" wx:key="question" class="card answer-card">
+    <view class="answer-count">第 {{index + 1}} 题</view>
     <view class="question">{{item.question}}</view>
+    <view class="answer-label">首答</view>
     <view class="answer">{{item.answer}}</view>
+    <view class="question probe">追问：{{item.probe}}</view>
+    <view class="answer">{{item.probeAnswer}}</view>
+    <view wx:if="{{item.rewrite}}" class="rewrite-result">
+      <view class="answer-label">同题重答</view>
+      <view class="answer">{{item.rewrite}}</view>
+      <view class="source-note">对照首答，检查是否补上了具体事实。本次重答未经过 AI 分析或评分。</view>
+    </view>
+    <view wx:if="{{rewriteIndex === index}}" class="rewrite-editor">
+      <view class="source-note">补充一个原回答中缺少的细节：当时的目标、你亲自做的一步，或结果的依据。不用编数字。</view>
+      <textarea class="rewrite-input" maxlength="800" auto-height placeholder="用同一经历重新回答，至少 10 字" value="{{rewriteDraft}}" bindinput="onRewriteInput" />
+      <button class="secondary-button" bindtap="saveRewrite">保存并对照首答</button>
+      <button class="delete-button" bindtap="cancelRewrite">取消编辑</button>
+    </view>
+    <button wx:else class="secondary-button rewrite-button" data-index="{{index}}" bindtap="selectRewrite">{{item.rewrite ? '修改同题重答' : '重答这道题'}}</button>
   </view>
 
   <button class="primary-button" bindtap="restart">再练一场</button>

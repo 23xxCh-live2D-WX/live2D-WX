@@ -1,7 +1,7 @@
 const { QUESTIONS, PROBES, validateAnswer, nextTurn } = require('../../utils/coach')
 const { generate } = require('../../utils/cloudAi')
 
-let activePage = null
+let recordingPage = null
 let recorderBound = false
 
 Page({
@@ -30,18 +30,23 @@ Page({
     }
     this.startedAt = Date.now()
     this.aiUsed = false
+    this.active = true
+    this.visible = true
     this.recorder = wx.getRecorderManager && wx.getRecorderManager()
     if (this.recorder) {
-      activePage = this
       if (!recorderBound) {
         this.recorder.onStop((res) => {
-          if (!activePage) return
-          activePage.voicePath = res.tempFilePath
-          activePage.setData({ recordState: activePage.voicePath ? 'recorded' : 'idle', recordSeconds: Math.round(res.duration / 1000) })
+          const page = recordingPage
+          recordingPage = null
+          if (!page || !page.active) return
+          page.voicePath = res.tempFilePath
+          page.setData({ recordState: page.voicePath ? 'recorded' : 'idle', recordSeconds: Math.round(res.duration / 1000) })
         })
         this.recorder.onError(() => {
-          if (!activePage) return
-          activePage.setData({ recordState: 'idle' })
+          const page = recordingPage
+          recordingPage = null
+          if (!page || !page.active) return
+          page.setData({ recordState: 'idle' })
           wx.showToast({ title: '录音失败，请检查麦克风权限', icon: 'none' })
         })
         recorderBound = true
@@ -57,27 +62,40 @@ Page({
     this.setData({ draft: event.detail.value, avatarState: 'listening' })
   },
   startRecord() {
-    if (!this.recorder || this.data.recordState === 'recording') return
+    if (!this.active || !this.visible || !this.recorder) return
+    if (recordingPage) {
+      wx.showToast({ title: '上一轮录音正在结束，请稍后重试', icon: 'none' })
+      return
+    }
     wx.authorize({
       scope: 'scope.record',
       success: () => {
+        if (!this.active || !this.visible || recordingPage) return
         this.stopPlayback()
         this.voicePath = ''
+        recordingPage = this
         this.setData({ recordState: 'recording', recordSeconds: 0, avatarState: 'listening' })
         try {
           this.recorder.start({ duration: 60000, format: 'mp3' })
         } catch (error) {
+          if (recordingPage === this) recordingPage = null
           this.setData({ recordState: 'idle' })
           wx.showToast({ title: '无法启动录音', icon: 'none' })
         }
       },
-      fail: () => wx.showToast({ title: '请同意隐私提示并允许麦克风', icon: 'none' }),
+      fail: () => { if (this.active) wx.showToast({ title: '请同意隐私提示并允许麦克风', icon: 'none' }) },
     })
   },
   stopRecord() {
     if (this.data.recordState !== 'recording') return
     this.setData({ recordState: 'processing', avatarState: 'thinking' })
-    this.recorder.stop()
+    try {
+      this.recorder.stop()
+    } catch (error) {
+      if (recordingPage === this) recordingPage = null
+      this.setData({ recordState: 'idle' })
+      wx.showToast({ title: '无法结束录音，请重试', icon: 'none' })
+    }
   },
   playRecord() {
     if (!this.voicePath) return
@@ -131,6 +149,7 @@ Page({
         wx.showToast({ title: '保存失败，请检查本机空间后重试', icon: 'none' })
         return
       }
+      this.active = false
       wx.redirectTo({ url: '/pages/report/report' })
       return
     }
@@ -152,6 +171,7 @@ Page({
         }
       }
     }
+    if (!this.active) return
     this.setData({
       answers: updated,
       questionIndex: next.questionIndex,
@@ -171,11 +191,18 @@ Page({
     })
   },
   onHide() {
-    if (this.data.recordState === 'recording') this.recorder.stop()
+    this.visible = false
+    if (this.data.recordState === 'recording') this.stopRecord()
     this.stopPlayback()
   },
+  onShow() {
+    this.visible = true
+  },
   onUnload() {
-    if (activePage === this) activePage = null
+    this.active = false
+    if (recordingPage === this && this.data.recordState === 'recording') {
+      try { this.recorder.stop() } catch (error) { recordingPage = null }
+    }
     this.stopPlayback()
   },
 })
