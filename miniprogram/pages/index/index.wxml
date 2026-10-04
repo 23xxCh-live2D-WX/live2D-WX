@@ -39,5 +39,6 @@
   </view>
 
   <button class="primary-button start-button" bindtap="start">开始练习</button>
+  <button wx:if="{{hasReport}}" class="secondary-button" bindtap="viewLast">回看上次练习与重答</button>
   <view class="footnote">练习反馈不预测真实录用结果。</view>
 </view>

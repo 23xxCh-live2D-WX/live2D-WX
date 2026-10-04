@@ -12,4 +12,9 @@
 .answer-count { color: #5368e8; font-size: 23rpx; font-weight: 600; }
 .question { font-size: 27rpx; font-weight: 600; line-height: 1.5; margin-top: 14rpx; }
 .answer { border-left: 5rpx solid #dce2ff; padding-left: 20rpx; margin-top: 22rpx; color: #56617b; font-size: 25rpx; line-height: 1.6; }
+.answer-label { margin-top: 26rpx; color: #394fbf; font-size: 24rpx; font-weight: 600; }
+.probe { font-size: 24rpx; }
+.rewrite-button { margin-top: 28rpx; }
+.rewrite-result, .rewrite-editor { border-top: 1rpx solid #e7eaf2; margin-top: 28rpx; padding-top: 8rpx; }
+.rewrite-input { width: 100%; min-height: 160rpx; margin: 24rpx 0; font-size: 27rpx; line-height: 1.6; }
 .delete-button { margin-top: 18rpx; color: #7b859c; background: transparent; font-size: 24rpx; }
